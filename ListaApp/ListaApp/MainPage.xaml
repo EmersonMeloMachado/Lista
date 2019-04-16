@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ListaApp.MainPage"
+             Title="Agenda Contatos">
+    <ListView
+        x:Name="ContatosListView"
+		ItemsSource="{Binding _contato}" Header="{Binding}" Footer="{Binding}">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <TextCell 
+					Text="{Binding nome}" Detail="{Binding sobrenome, StringFormat='E-mail: {0}'}" DetailColor="Blue"/>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+        <ListView.HeaderTemplate>
+            <DataTemplate>
+                <ContentView BackgroundColor="Beige">
+                    <Label Margin="16" HorizontalOptions="CenterAndExpand" Text="{Binding Telefone, StringFormat='Meu Fone: {0}'}" />
+                </ContentView>
+            </DataTemplate>
+        </ListView.HeaderTemplate>
+        <ListView.FooterTemplate>
+            <DataTemplate>
+                <ContentView BackgroundColor="Beige">
+                    <Label Margin="16"  HorizontalOptions="CenterAndExpand" Text="{Binding ContatoCount, StringFormat='Total de Contatos: {0}'}" />
+                </ContentView>
+            </DataTemplate>
+        </ListView.FooterTemplate>
+    </ListView>
+
+</ContentPage>
