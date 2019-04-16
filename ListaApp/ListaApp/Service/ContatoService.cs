@@ -12,14 +12,14 @@ namespace ListaApp.Service
 {
     public class ContatoService
     {
+        public ObservableCollection<Contato> retorno = new ObservableCollection<Contato>();
+
+        public const string BaseUrl = "https://5cb544bd07f233001424ceb8.mockapi.io/tete-fiap/clientes";
+
         public ContatoService()
         {
             
         }
-
-        public ObservableCollection<Contato> retorno = new ObservableCollection<Contato>();
-
-        public const string BaseUrl = "https://5cb544bd07f233001424ceb8.mockapi.io/tete-fiap/clientes";
 
         public async Task<ObservableCollection<Contato>> ObterTodosContatos()
         {
@@ -27,7 +27,7 @@ namespace ListaApp.Service
             {
                 HttpClient httpClient = new HttpClient();
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                using(HttpResponseMessage response = await httpClient.GetAsync($"{BaseUrl}contatos/"))
+                using(HttpResponseMessage response = await httpClient.GetAsync($"{BaseUrl}"))
                 {
                     if(response.IsSuccessStatusCode)
                     {
@@ -38,9 +38,6 @@ namespace ListaApp.Service
                         }
                         else
                         {
-
-                            IList<Contato> lContato = new List<Contato>();
-
                             using(Stream resposeStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
                             {
 
@@ -50,11 +47,9 @@ namespace ListaApp.Service
                                     MissingMemberHandling = MissingMemberHandling.Ignore
                                 };
 
-                                lContato = JsonConvert.DeserializeObject<List<Contato>>(await new StreamReader(resposeStream)
+                                return retorno = JsonConvert.DeserializeObject<ObservableCollection<Contato>>(await new StreamReader(resposeStream)
                                     .ReadToEndAsync().ConfigureAwait(false), settings);
                             }
-
-                            return retorno;
                         }
                     }
                 }

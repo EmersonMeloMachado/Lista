@@ -5,11 +5,11 @@
              Title="Agenda Contatos">
     <ListView
         x:Name="ContatosListView"
-		ItemsSource="{Binding _contato}" Header="{Binding}" Footer="{Binding}">
+		ItemsSource="{Binding lContato}" Header="{Binding}" Footer="{Binding}" HasUnevenRows="True" SeparatorVisibility="None">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <TextCell 
-					Text="{Binding nome}" Detail="{Binding sobrenome, StringFormat='E-mail: {0}'}" DetailColor="Blue"/>
+					Text="{Binding nome}" Detail="{Binding sobrenome}" DetailColor="Blue"/>
             </DataTemplate>
         </ListView.ItemTemplate>
         <ListView.HeaderTemplate>

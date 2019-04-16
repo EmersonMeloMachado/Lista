@@ -1,13 +1,9 @@
 ﻿using ListaApp.Model;
 using ListaApp.Service;
-using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ListaApp.ViewModel
 {
@@ -32,20 +28,33 @@ namespace ListaApp.ViewModel
             return true;
         }
 
-        public ObservableCollection<Contato> _contato;
+        public ObservableCollection<Contato> lContato { get; }
 
-        public int ContatoCount { get; private set; }
+        private int _contator;
+        public int ContatoCount
+        {
+            get => _contator;
+            set => SetProperty(ref _contator, value);
+        }
+
         public string Telefone { get; private set; } = "+55 (11) 9807-0055";
 
         public ContatoViewModel()
         {
-            ListaContato().Wait();
+            lContato = new ObservableCollection<Contato>();
+            ListaContato();
+
+            ContatoCount = lContato.Count;
         }
 
-        public async Task ListaContato()
+        public async void ListaContato()
         {
             var repo = new ContatoService();
-            _contato = await repo.ObterTodosContatos();
+            ObservableCollection<Contato> l = await repo.ObterTodosContatos();
+            foreach(var item in l)
+            {
+                lContato.Add(item);
+            }
         }
     }
 }
